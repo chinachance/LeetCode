@@ -80,7 +80,47 @@ public class Solution {
 }
 ~~~~
 
-运行之后,发现执行效率低,请看评测结果:
+运行之后,发现执行效率低,请看评测结果(由于超时,评测不过关):
 
  ![1](C:\Users\C\Desktop\NoteGithub\LeetCode\2017.11.3三角形计数\1.png)
 
+## 优化方法
+
+~~~~JAVA
+public class Solution {
+    /*
+     * @param S: A list of integers
+     * @return: An integer
+     */
+     public int triangleCount(int[] S) {
+	        // write your code here
+		int ret=0;
+        Arrays.sort(S);
+        for(int i=0;i<S.length-2;i++){
+            for(int j=i+2;j<S.length;j++){
+                ret+=count(j,i+1,S);     //找第三条边的方法。不能把最小边i包含进去
+            }
+        }
+        return ret;
+	    }
+	 
+	   public  int count(int max,int min, int S[]){
+            int sum=0;
+            int j=max;
+            int taget=S[max]-S[min-1];
+            int mid=0;
+            while(max-min>=0){
+                mid = (max+min)/2;
+                if(taget<S[mid]){
+                    max=mid-1;
+                }else{
+                    min=mid+1;
+                }
+            }
+            sum=j-min;
+            return sum;
+    }   
+}
+~~~~
+
+好了,这样就完美解决了
